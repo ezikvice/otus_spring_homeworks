@@ -1,0 +1,25 @@
+answer:
+  right:
+    Right
+  wrong:
+    Wrong
+error:
+  answerNotFound:
+    A response with such a number was not found. Try entering a right number.\n
+  notANumber:
+    You did not enter a numeric value. Please enter a number.\n
+greetings:
+  Hello! Introduce yourself, please:\n
+pathToFile:
+  questions:
+    questions_en.csv
+question:
+  Question
+student:
+  answer:
+    Your answer:\n
+test:
+  results:
+    Great, %s ! Here are your results:\n
+  suggesting:
+    We suggest you take a test.\n
