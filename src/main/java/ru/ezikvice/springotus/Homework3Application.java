@@ -2,7 +2,7 @@ package ru.ezikvice.springotus;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.ApplicationContext;
 import ru.ezikvice.springotus.domain.Question;
 import ru.ezikvice.springotus.domain.UserExamination;
 import ru.ezikvice.springotus.service.LoadService;
@@ -14,9 +14,7 @@ import java.util.Map;
 public class Homework3Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(Homework3Application.class, args);
-
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(Homework3Application.class);
+        ApplicationContext context = SpringApplication.run(Homework3Application.class, args);
         QAService service = context.getBean(QAService.class);
         LoadService loadService = context.getBean(LoadService.class);
 
