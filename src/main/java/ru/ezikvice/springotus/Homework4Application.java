@@ -11,16 +11,17 @@ import ru.ezikvice.springotus.service.QAService;
 import java.util.Map;
 
 @SpringBootApplication
-public class Homework3Application {
+public class Homework4Application {
 
     public static void main(String[] args) {
-        ApplicationContext context = SpringApplication.run(Homework3Application.class, args);
-        QAService service = context.getBean(QAService.class);
-        LoadService loadService = context.getBean(LoadService.class);
-
-        Map<Integer, Question> questionMap = loadService.loadQuestions();
-        UserExamination exam = service.examine(questionMap);
-        service.printResult(exam);
+//        ApplicationContext context = SpringApplication.run(Homework4Application.class, args);
+//        QAService service = context.getBean(QAService.class);
+//        LoadService loadService = context.getBean(LoadService.class);
+//
+//        Map<Integer, Question> questionMap = loadService.loadQuestions();
+//        UserExamination exam = service.examine(questionMap);
+//        service.printResult(exam);
+        SpringApplication.run(Homework4Application.class);
 
     }
 }

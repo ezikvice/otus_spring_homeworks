@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.ezikvice.springotus</groupId>
-    <artifactId>homework3</artifactId>
+    <artifactId>homework4</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>homework3</name>
-    <description>Homework 3 for Otus Spring course</description>
+    <name>homework4</name>
+    <description>Homework 4 for Otus Spring course. Spring Shell.</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -40,6 +40,12 @@
             <groupId>net.sf.opencsv</groupId>
             <artifactId>opencsv</artifactId>
             <version>2.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.shell</groupId>
+            <artifactId>spring-shell-starter</artifactId>
+            <version>2.0.0.RELEASE</version>
         </dependency>
 
     </dependencies>
