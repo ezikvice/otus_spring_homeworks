@@ -14,8 +14,8 @@ public class Commands {
         this.loadService = loadService;
     }
 
-    @ShellMethod(key = {"help", "h"})
-    public String help() {
+    @ShellMethod(value="hlp", key = {"hlp", "h"})
+    public String hlp() {
 
         return "dftgsdfg";
     }
