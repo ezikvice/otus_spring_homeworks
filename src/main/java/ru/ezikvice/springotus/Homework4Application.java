@@ -14,14 +14,6 @@ import java.util.Map;
 public class Homework4Application {
 
     public static void main(String[] args) {
-//        ApplicationContext context = SpringApplication.run(Homework4Application.class, args);
-//        QAService service = context.getBean(QAService.class);
-//        LoadService loadService = context.getBean(LoadService.class);
-//
-//        Map<Integer, Question> questionMap = loadService.loadQuestions();
-//        UserExamination exam = service.examine(questionMap);
-//        service.printResult(exam);
         SpringApplication.run(Homework4Application.class);
-
     }
 }
