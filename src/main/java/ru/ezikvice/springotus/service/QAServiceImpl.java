@@ -47,9 +47,8 @@ public class QAServiceImpl implements QAService {
     }
 
     @Override
-    public UserExamination examine(Map<Integer, Question> questionMap) {
-        printLocalized("greetings");
-        String userName = scanner.next();
+    public UserExamination examine(String name, Map<Integer, Question> questionMap) {
+        String userName = name;
 
         System.out.printf("%s, %s", userName, ms.getMessage("test.suggesting", null, curLocale));
 
