@@ -1,4 +1,4 @@
-package ru.ezikvice.springotus.homework4;
+package ru.ezikvice.springotus.test;
 
 import org.junit.Assert;
 import org.junit.Test;
