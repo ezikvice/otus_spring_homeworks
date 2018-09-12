@@ -1,6 +1,7 @@
 package ru.ezikvice.springotus.service;
 
 import au.com.bytecode.opencsv.CSVReader;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import ru.ezikvice.springotus.domain.Answer;
 import ru.ezikvice.springotus.domain.Question;
@@ -10,8 +11,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 @Service
 public class LoadServiceImpl implements LoadService {
@@ -20,11 +21,14 @@ public class LoadServiceImpl implements LoadService {
     private static final int TEXT = 2;
     private static final int CORRECT = 3;
 
-    private final ResourceBundle rb;
-
-    public LoadServiceImpl(ResourceBundle rb) {
-        this.rb = rb;
+    public LoadServiceImpl(MessageSource ms, Locale lcl) {
+        this.ms = ms;
+        this.curLocale = lcl;
     }
+
+    private final MessageSource ms;
+
+    private final Locale curLocale;
 
     @Override
     public Map<Integer, Question> loadQuestions() {
@@ -33,25 +37,26 @@ public class LoadServiceImpl implements LoadService {
         List<String[]> lines;
         try {
             ClassLoader classLoader = getClass().getClassLoader();
-            FileReader f = new FileReader(classLoader.getResource(rb.getString("path.to.file.questions")).getFile());
+            FileReader f = new FileReader(classLoader.getResource(
+                    ms.getMessage("path.to.file.questions", null, curLocale)).getFile());
             CSVReader reader = new CSVReader(f, ';');
             try {
                 lines = reader.readAll();
 
                 // TODO: to see how to make it simpler
                 for (String[] line : lines) {
-                    String qIdStr = new String(line[QUESTION_ID]);
-                    Integer questionId = Integer.parseInt(qIdStr);
+                    String qIdStr = line[QUESTION_ID];
+                    int questionId = Integer.parseInt(qIdStr);
 
-                    String txt = new String(line[TEXT]);
+                    String txt = line[TEXT];
 
-                    Boolean correct = line[CORRECT].equals("1");
+                    boolean correct = line[CORRECT].equals("1");
 
                     if (line[ANSWER_ID] == null || line[ANSWER_ID].equals("")) {
                         questions.put(questionId, new Question(questionId, txt));
                     } else {
-                        String aIdStr = new String(line[ANSWER_ID]);
-                        Integer answerId = Integer.parseInt(aIdStr);
+                        String aIdStr = line[ANSWER_ID];
+                        int answerId = Integer.parseInt(aIdStr);
                         questions.get(questionId).setAnswer(new Answer(answerId, questionId, txt, correct));
                     }
                 }
