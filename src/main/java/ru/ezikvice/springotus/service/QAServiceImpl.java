@@ -1,6 +1,6 @@
 package ru.ezikvice.springotus.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import ru.ezikvice.springotus.domain.Answer;
 import ru.ezikvice.springotus.domain.ExaminationQuestion;
@@ -14,30 +14,33 @@ public class QAServiceImpl implements QAService {
 
     private final Scanner scanner = new Scanner(System.in);
 
-    private final ResourceBundle rb;
+    private final MessageSource ms;
 
-    public QAServiceImpl(ResourceBundle rb) {
-        this.rb = rb;
+    private final Locale curLocale;
+
+    public QAServiceImpl(MessageSource ms, Locale lcl) {
+        this.ms = ms;
+        this.curLocale = lcl;
     }
 
-    @Override
-    public Answer askQuestion(Question question) {
+    private Answer askQuestion(Question question) {
+
         System.out.printf("%d. %s%n", question.getId(), question.getText());
         for (Answer answer : question.getAnswers().values()) {
             System.out.printf("%d. %s %n", answer.getId(), answer.getText());
         }
-        System.out.printf("%s", rb.getString("student.answer"));
+        printLocalized("student.answer");
         Integer userAnswerId;
         Answer userAnswer;
         try {
             userAnswerId = Integer.parseInt(scanner.next());
             userAnswer = question.getAnswerById(userAnswerId);
             if (userAnswer == null) {
-                System.out.printf("%s", rb.getString("error.answer.not.found"));
+                printLocalized("error.answer.not.found");
                 userAnswer = askQuestion(question);
             }
         } catch (NumberFormatException e) {
-            System.out.printf("%s", rb.getString("error.not.a.number"));
+            printLocalized("error.not.a.number");
             userAnswer = askQuestion(question);
         }
         return userAnswer;
@@ -45,10 +48,10 @@ public class QAServiceImpl implements QAService {
 
     @Override
     public UserExamination examine(Map<Integer, Question> questionMap) {
-        System.out.printf("%s", rb.getString("greetings"));
+        printLocalized("greetings");
         String userName = scanner.next();
 
-        System.out.printf("%s, %s", userName, rb.getString("test.suggesting"));
+        System.out.printf("%s, %s", userName, ms.getMessage("test.suggesting", null, curLocale));
 
         List<ExaminationQuestion> userAnswers = new ArrayList<>();
         for (Question question : questionMap.values()) {
@@ -62,12 +65,23 @@ public class QAServiceImpl implements QAService {
     @Override
     public void printResult(UserExamination exam) {
         System.out.println("----");
-        System.out.printf(rb.getString("test.results"), exam.getUserName());
+        printLocalized("test.results", exam.getUserName());
         for (ExaminationQuestion userAnswer : exam.getUserQuestions()) {
             System.out.printf("%s %d: %s%n",
-                    rb.getString("question"),
+                    ms.getMessage("question", null, curLocale),
                     userAnswer.getQuestionId(),
-                    userAnswer.isCorrect() ? rb.getString("answer.right") : rb.getString("answer.wrong"));
+                    userAnswer.isCorrect() ?
+                            ms.getMessage("answer.right", null, curLocale) :
+                            ms.getMessage("answer.wrong", null, curLocale)
+            );
         }
+    }
+
+    private void printLocalized(String code) {
+        System.out.printf("%s", ms.getMessage(code, null, curLocale));
+    }
+
+    private void printLocalized(String code, String param) {
+        System.out.println(ms.getMessage(code, new Object[] {param}, curLocale));
     }
 }
